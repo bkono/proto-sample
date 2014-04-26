@@ -19,26 +19,17 @@ syntax: glob
 .idea
 *.iml
 
-# building
-target
-build
-null
-tmp*
-temp*
-dist
-test-output
-build.log
+# sbt specific
+.cache/
+.history/
+.lib/
+dist/*
+target/
+lib_managed/
+src_managed/
+project/boot/
+project/plugins/project/
 
-# misc logs
-*.log
-
-# other scm
-.svn
-.CVS
-.hg*
-
-# switch to regexp syntax.
-#  syntax: regexp
-#  ^\.pc/
-
-build.log
+# Scala-IDE specific
+.scala_dependencies
+.worksheet
