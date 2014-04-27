@@ -1,0 +1,5 @@
+endpoint FooEndpoint can receive [
+    from com.oddz.simpleservice.messages
+        GetThing and respond with [GetThingResponse, Failed]
+    GetOtherThing
+]

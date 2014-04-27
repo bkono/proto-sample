@@ -20,6 +20,7 @@ libraryDependencies ++= {
     "com.typesafe.akka"       %%  "akka-persistence-experimental"   % akkaV,
     "com.typesafe.akka"       %%  "akka-slf4j"                      % akkaV,
     "net.sandrogrzicic"       %%  "scalabuff-runtime"               % "1.3.6",
+    "org.parboiled"           %% "parboiled"                        % "2.0.0-RC1",
     "ch.qos.logback"          %   "logback-classic"                 % "1.0.13",
     "org.scalatest"           %%  "scalatest"                       % "2.1.3" % "test"
   )

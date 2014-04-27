@@ -1,0 +1,10 @@
+endpoint FooEndpoint can receive GetThing
+
+endpoint FooEndpoint can receive [ GetThing, GetOtherThing ]
+
+endpoint FooEndpoint can receive [
+    from com.oddz.simpleservice.messages
+        GetThing and respond with [GetThingResponse, Failed]
+    GetOtherThing
+]
+
