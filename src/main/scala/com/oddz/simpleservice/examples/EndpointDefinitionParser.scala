@@ -6,7 +6,7 @@ import com.oddz.simpleservice.examples
 
 
 class EndpointDefinitionParser(val input: ParserInput) extends Parser {
-  def EndpointDefinition = rule { EndpointName ~ Can ~ Receive ~ WhiteSpace ~ EOI ~> examples.EndpointDefinition }
+  def Definition = rule { EndpointName ~ Can ~ Receive ~ WhiteSpace ~ EOI ~> examples.EndpointDefinition }
   
   def EndpointName = rule { ws("endpoint") ~ capture(Characters) ~ WhiteSpace }
   def Can = rule { "can" ~ WhiteSpace }
@@ -32,7 +32,7 @@ object Test {
 
 object EndpointDefinitionParserExample extends App {
   val parser = new EndpointDefinitionParser(Test.inProgress)
-  parser.EndpointDefinition.run() match {
+  parser.Definition.run() match {
     case Success(exprAst) => println(s"success! completed with an expression AST of [ $exprAst ]")
     case Failure(e: ParseError) ⇒ println("Endpoint definition is not valid: " + parser.formatError(e))
     case Failure(_) => println("failed for an unknown reason")

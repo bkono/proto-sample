@@ -8,7 +8,7 @@ class EndpointDefinitionParserSpec extends WordSpec with MustMatchers {
   "An EndpointDefinitionParser" when {
     "Given a simple definition file" must {
       "parse successfully" in {
-        parse(Test.simple) must be (EndpointDefinition("FooEndpoint", Seq("GetThing")))
+        parse(Test.simple) must be (EndpointDefinition("FooEndpoint", Seq("com.oddz.simpleservice.messages.GetThing")))
       }
     }
     "Given a definition with multiple messages in the receive" must {
@@ -26,7 +26,7 @@ class EndpointDefinitionParserSpec extends WordSpec with MustMatchers {
 
   def parse(s: String): EndpointDefinition = {
     val parser = new EndpointDefinitionParser(s)
-    parser.EndpointDefinition.run() match {
+    parser.Definition.run() match {
       case Success(result) => println(s"success! completed with an expression AST of [ $result ]"); result
       case Failure(e: ParseError) => sys.error(parser.formatError(e, showTraces = true))
       case Failure(e)             => throw e

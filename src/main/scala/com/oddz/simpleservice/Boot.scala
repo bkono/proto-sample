@@ -62,11 +62,12 @@ trait BaseEndpoint {
   def become(alternate: Receive) = context.become(unwrapEnvelope orElse alternate)
 }
 
-trait FooEndpoint extends BaseEndpoint {
-  this: Actor with ActorLogging =>
-
-  val messageFromBinary = Map[String, Array[Byte] => AnyRef](
-    "com.oddz.simpleservice.messages.GetThing" -> { payload => GetThing.defaultInstance.mergeFrom(payload) },
-    "com.oddz.simpleservice.messages.GetThingRequest" -> { payload => "no response for you" }
-  )
-}
+// Replaced by codegen version
+//trait FooEndpoint extends BaseEndpoint {
+//  this: Actor with ActorLogging =>
+//
+//  val messageFromBinary = Map[String, Array[Byte] => AnyRef](
+//    "com.oddz.simpleservice.messages.GetThing" -> { payload => GetThing.defaultInstance.mergeFrom(payload) },
+//    "com.oddz.simpleservice.messages.GetThingRequest" -> { payload => "no response for you" }
+//  )
+//}
