@@ -1,2 +1,2 @@
-endpoint FooEndpoint can receive com.oddz.simpleservice.messages.GetThing, com.oddz.account.messages.FooStuff
+endpoint FooEndpoint can receive [ com.oddz.simpleservice.messages.GetThing, com.oddz.account.messages.FooStuff]
 

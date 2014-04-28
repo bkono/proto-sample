@@ -46,13 +46,10 @@ class FooEndpointActor extends Actor with ActorLogging with FooEndpoint {
   }
 }
 
-trait FooEndpoint {
+trait BaseEndpoint {
   this: Actor with ActorLogging =>
 
-  val messageFromBinary = Map[String, Array[Byte] => AnyRef](
-    "com.oddz.simpleservice.messages.GetThing" -> { payload => GetThing.defaultInstance.mergeFrom(payload) },
-    "com.oddz.simpleservice.messages.GetThingRequest" -> { payload => "no response for you" }
-  )
+  def messageFromBinary: Map[String, Array[Byte] => AnyRef]
 
   def handlePayload: Receive
 
@@ -63,4 +60,13 @@ trait FooEndpoint {
 
   def receive = unwrapEnvelope orElse handlePayload
   def become(alternate: Receive) = context.become(unwrapEnvelope orElse alternate)
+}
+
+trait FooEndpoint extends BaseEndpoint {
+  this: Actor with ActorLogging =>
+
+  val messageFromBinary = Map[String, Array[Byte] => AnyRef](
+    "com.oddz.simpleservice.messages.GetThing" -> { payload => GetThing.defaultInstance.mergeFrom(payload) },
+    "com.oddz.simpleservice.messages.GetThingRequest" -> { payload => "no response for you" }
+  )
 }

@@ -13,8 +13,7 @@ class EndpointDefinitionParser(val input: ParserInput) extends Parser {
 
   // handle array or singular following, need type def
   def Receive = rule { "receive" ~ WhiteSpace ~ zeroOrMore(Message).separatedBy(ws(',')) }
-  // add to messages list, not capture characters, try to build full Receives object maybe?
-  def Message = rule { capture(FullyQualifiedClass) }
+  def Message = rule { optional(ws('[')) ~ capture(FullyQualifiedClass) ~ optional(WhiteSpace ~ ']') }
 
   val WhiteSpaceChar = CharPredicate(" \n\r\t\f")
   def WhiteSpace = rule { zeroOrMore(WhiteSpaceChar) }
@@ -22,7 +21,6 @@ class EndpointDefinitionParser(val input: ParserInput) extends Parser {
   def ws(s: String) = rule { s ~ WhiteSpace }
   def Characters = rule { oneOrMore(CharPredicate.LowerAlpha | CharPredicate.UpperAlpha) }
   def FullyQualifiedClass = rule { oneOrMore(Characters).separatedBy(".")  }
-
 }
 
 object Test {
