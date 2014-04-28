@@ -2,20 +2,26 @@ package com.oddz.simpleservice.examples
 
 import org.parboiled2._
 import scala.util.{Success, Failure}
+import com.oddz.simpleservice.examples
 
-object EndpointDefinitionParser {
-  case class EndpointName(name: String)
-}
 
 class EndpointDefinitionParser(val input: ParserInput) extends Parser {
-  def Endpoint = rule { EndpointKeyword ~ WhiteSpace ~ EOI}
+  def EndpointDefinition = rule { EndpointName ~ Can ~ Receive ~ WhiteSpace ~ EOI ~> examples.EndpointDefinition }
+  
+  def EndpointName = rule { ws("endpoint") ~ capture(Characters) ~ WhiteSpace }
+  def Can = rule { "can" ~ WhiteSpace }
+
+  // handle array or singular following, need type def
+  def Receive = rule { "receive" ~ WhiteSpace ~ zeroOrMore(Message).separatedBy(ws(',')) }
+  // add to messages list, not capture characters, try to build full Receives object maybe?
+  def Message = rule { capture(FullyQualifiedClass) }
 
   val WhiteSpaceChar = CharPredicate(" \n\r\t\f")
   def WhiteSpace = rule { zeroOrMore(WhiteSpaceChar) }
+  def ws(c: Char) = rule { c ~ WhiteSpace }
+  def ws(s: String) = rule { s ~ WhiteSpace }
   def Characters = rule { oneOrMore(CharPredicate.LowerAlpha | CharPredicate.UpperAlpha) }
-//  def NormalChar = rule { ANY ~ oneOrMore(WhiteSpace) | EOI }
-
-  def EndpointKeyword = rule { "endpoint" ~ WhiteSpace ~ capture(Characters) }
+  def FullyQualifiedClass = rule { oneOrMore(Characters).separatedBy(".")  }
 
 }
 
@@ -28,8 +34,9 @@ object Test {
 
 object EndpointDefinitionParserExample extends App {
   val parser = new EndpointDefinitionParser(Test.inProgress)
-  parser.Endpoint.run() match {
+  parser.EndpointDefinition.run() match {
     case Success(exprAst) => println(s"success! completed with an expression AST of [ $exprAst ]")
     case Failure(e: ParseError) ⇒ println("Endpoint definition is not valid: " + parser.formatError(e))
+    case Failure(_) => println("failed for an unknown reason")
   }
 }
